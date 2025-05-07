@@ -1,0 +1,62 @@
+//NOTES
+###
+GET http://localhost:5000/event
+
+###
+POST http://localhost:5000/add-event
+Content-Type: application/json
+
+{
+  "title": "Veteran Festival",
+  "description" : "Festival musik tahunan yang dilaksanakan oleh BEM KM",
+  "location":"Lapangan softball UPN",
+  "holder":"BEM KM UPNYK",
+  "date": "2024-12-01",
+  "quota" : "1200"
+}
+
+###
+PUT http://localhost:5000/edit-event/?
+Content-Type: application/json
+
+{
+  "title": "meong",
+  "description" : "kfikkooo",
+  "location":"2025-01-01",
+  "holder":" woi kongeol",
+  "date": "",
+  "quota" : ""
+}
+
+###
+DELETE http://localhost:5000/delete-event/?
+
+
+//USER
+###
+GET http://localhost:5000/user
+
+###
+POST http://localhost:5000/add-user
+Content-Type: application/json
+
+{
+  "name":"beryl mikayla",
+  "email": "berkayla@gmail.com",
+  "pass": "beri123",
+  "role": "user"
+}
+
+###
+PUT http://localhost:5000/edit-user/?
+Content-Type: application/json
+
+{
+ "name":"UKM Vocalista Paradisso",
+  "email": "vocalista@gmail.com",
+  "pass": "meongmeong",
+  "role": "admin"
+}
+
+###
+DELETE http://localhost:5000/delete-user/1
