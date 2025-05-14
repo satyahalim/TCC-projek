@@ -1,7 +1,8 @@
-//NOTES
+//CEK EVENT
 ###
 GET http://localhost:5000/event
 
+//TAMBAH EVENT
 ###
 POST http://localhost:5000/add-event
 Content-Type: application/json
@@ -15,6 +16,7 @@ Content-Type: application/json
   "quota" : "1200"
 }
 
+//
 ###
 PUT http://localhost:5000/edit-event/?
 Content-Type: application/json
@@ -29,8 +31,11 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/delete-event/?
+DELETE http://localhost:5000/delete-event/2
 
+//GET TOKEN
+###
+GET http://localhost:5000/token
 
 //USER
 ###
@@ -44,7 +49,8 @@ Content-Type: application/json
   "name":"beryl mikayla",
   "email": "berkayla@gmail.com",
   "pass": "beri123",
-  "role": "user"
+  "role": "user",
+  "refresh_token":""
 }
 
 ###
@@ -60,3 +66,5 @@ Content-Type: application/json
 
 ###
 DELETE http://localhost:5000/delete-user/1
+
+###

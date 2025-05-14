@@ -7,7 +7,8 @@ const User = db.define(
         name : DataTypes.STRING,
         email : DataTypes.STRING,
         pass : DataTypes.STRING,
-        role : DataTypes.STRING 
+        role : DataTypes.STRING,
+        refresh_token : DataTypes.STRING 
     })
 
     db.sync().then(()=> console.log("user synchronized"));
