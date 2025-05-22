@@ -5,9 +5,9 @@ const router = express.Router()
 
 router.get("/event",getEvents)
 router.get("/event/:id",getEventsById)
-router.post("/add-event",createEvents)
-router.patch("/edit-event/:id",updateEvents)
-router.delete("/delete-event/:id",deleteEvents)
+router.post("/event",createEvents)
+router.patch("/event/:id",updateEvents)
+router.delete("/event/:id",deleteEvents)
 
 export default router
 

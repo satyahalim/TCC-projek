@@ -4,7 +4,7 @@ GET http://localhost:5000/event
 
 //TAMBAH EVENT
 ###
-POST http://localhost:5000/add-event
+POST http://localhost:5000/event
 Content-Type: application/json
 
 {
@@ -18,7 +18,7 @@ Content-Type: application/json
 
 //
 ###
-PUT http://localhost:5000/edit-event/?
+PUT http://localhost:5000/event/?
 Content-Type: application/json
 
 {
@@ -31,7 +31,7 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:5000/delete-event/2
+DELETE http://localhost:5000/event/2
 
 //GET TOKEN
 ###
@@ -42,15 +42,14 @@ GET http://localhost:5000/token
 GET http://localhost:5000/user
 
 ###
-POST http://localhost:5000/add-user
+POST http://localhost:5000/user
 Content-Type: application/json
 
 {
   "name":"beryl mikayla",
   "email": "berkayla@gmail.com",
   "pass": "beri123",
-  "role": "user",
-  "refresh_token":""
+  "role": "user"
 }
 
 ###

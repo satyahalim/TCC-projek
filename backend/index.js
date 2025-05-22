@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+import "dotenv/config";
 import EventRoute from "./routes/EventRoutes.js"
 import UserRoute from "./routes/UserRoutes.js"
 import RegistRoute from "./routes/RegistRoutes.js"

@@ -3,9 +3,16 @@ import Event from "../models/EventModel.js";
 async function getEvents(req,res) {
     try {
         const result = await Event.findAll()
-        return res.status(200).json(result)
+        return res.status(200).json({
+            status: "Success",
+            message: "Event retrieved",
+            data : result
+        })
     } catch (error) {
-        console.log(error.message)
+        console.log({
+            status: "error",
+            message: error.message
+        })
     } 
 }
 
@@ -16,6 +23,10 @@ async function getEventsById(req,res) {
                 id: req.params.id
             }
         })
+        if(!result){
+            const error = new Error("Event tidak ditemukan")
+            throw error
+        }
     } catch (error) {
         console.log(error.message)
     }   
@@ -24,7 +35,10 @@ async function getEventsById(req,res) {
 async function createEvents(req,res) {
     try {
         await Event.create(req.body)
-        return res.status(201).json({msg:"Event has been added"})
+        return res.status(201).json({
+            status: "Success",
+            message: "Event created",
+        })
     } catch (error) {
         console.log(error.message)
     }   
@@ -37,7 +51,10 @@ async function updateEvents(req,res){
             id:req.params.id
         }
         })
-        res.status(200).json({msg:"event updated"})
+        res.status(200).json({
+            status: "Success",
+            message: "Event updated",
+        })
     } catch (error) {
         console.log(error.message)
     }
