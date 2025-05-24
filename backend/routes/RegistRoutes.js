@@ -6,7 +6,7 @@ import Event from "../models/EventModel.js";
 const router = express.Router();
 
 // GET all registrations (include user & event info)
-router.get("/", async (req, res) => {
+router.get("/regist", async (req, res) => {
   try {
     const registrations = await Registration.findAll({
       include: [User, Event]
@@ -18,7 +18,7 @@ router.get("/", async (req, res) => {
 });
 
 // GET single registration by ID
-router.get("/:id", async (req, res) => {
+router.get("/regist/:id", async (req, res) => {
   try {
     const registration = await Registration.findByPk(req.params.id, {
       include: [User, Event]
@@ -31,7 +31,7 @@ router.get("/:id", async (req, res) => {
 });
 
 // POST create new registration
-router.post("/", async (req, res) => {
+router.post("/regist", async (req, res) => {
   try {
     const { user_id, event_id, status } = req.body;
     const newReg = await Registration.create({ user_id, event_id, status });
@@ -42,7 +42,7 @@ router.post("/", async (req, res) => {
 });
 
 // PUT update a registration
-router.put("/:id", async (req, res) => {
+router.put("/regist/:id", async (req, res) => {
   try {
     const registration = await Registration.findByPk(req.params.id);
     if (!registration) return res.status(404).json({ message: "Not found" });
@@ -55,7 +55,7 @@ router.put("/:id", async (req, res) => {
 });
 
 // DELETE registration
-router.delete("/:id", async (req, res) => {
+router.delete("/regist/:id", async (req, res) => {
   try {
     const registration = await Registration.findByPk(req.params.id);
     if (!registration) return res.status(404).json({ message: "Not found" });

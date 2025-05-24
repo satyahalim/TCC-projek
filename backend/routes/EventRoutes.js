@@ -1,13 +1,13 @@
 import express from "express";
-import { getEvents,getEventsById,createEvents,updateEvents,deleteEvents } from "../controller/EventController.js";
+import {createEvent,getEvents,deleteEvent,updateEvent,getEventById} from "../controller/EventController.js"
 
 const router = express.Router()
 
 router.get("/event",getEvents)
-router.get("/event/:id",getEventsById)
-router.post("/event",createEvents)
-router.patch("/event/:id",updateEvents)
-router.delete("/event/:id",deleteEvents)
+router.get("/event/:id",getEventById)
+router.post("/event",createEvent)
+router.patch("/event/:id",updateEvent)
+router.delete("/event/:id",deleteEvent)
 
 export default router
 

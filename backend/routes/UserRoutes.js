@@ -8,8 +8,8 @@ const router = express.Router()
 router.get("/token", getAccessToken)
 
 //untuk login logout
-router.post("/login",login)
-router.delete("/logout",logout)
+router.post("/loginuser",login)
+router.delete("/logoutuser",logout)
 
 //crud user
 router.get("/user",verifyToken,getUsers)

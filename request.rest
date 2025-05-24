@@ -42,14 +42,21 @@ GET http://localhost:5000/token
 GET http://localhost:5000/user
 
 ###
-POST http://localhost:5000/user
+POST  http://localhost:5000/user
 Content-Type: application/json
 
 {
-  "name":"beryl mikayla",
-  "email": "berkayla@gmail.com",
-  "pass": "beri123",
-  "role": "user"
+  "name":"tes",
+  "email": "tes@gmail.com",
+  "pass": "meong"
+}
+###
+POST http://localhost:5000/loginuser
+Content-Type: application/json
+
+{
+  "email": "tes@gmail.com",
+  "pass": "meong"
 }
 
 ###
@@ -67,3 +74,19 @@ Content-Type: application/json
 DELETE http://localhost:5000/delete-user/1
 
 ###
+POST  http://localhost:5000/admin
+Content-Type: application/json
+
+{
+  "name":"tes",
+  "email": "tes2@gmail.com",
+  "pass": "meong2"
+}
+###
+POST http://localhost:5000/loginadmin
+Content-Type: application/json
+
+{
+  "email": "tes2@gmail.com",
+  "pass": "meong2"
+}

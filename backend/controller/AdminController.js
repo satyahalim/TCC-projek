@@ -1,14 +1,14 @@
-import User from "../models/UserModel.js";
+import Admin from "../models/AdminModel.js"
 import bcrypt from "bcrypt"
 import jwt from "jsonwebtoken"
 
-async function getUsers(req,res) {
+async function getAdmin(req,res) {
     try {
-    const user = await User.findAll()
+    const admin = await Admin.findAll()
     return res.status(200).json({
         status:"Success",
-        message: "user retrieved",
-        data: user 
+        message: "admin retrieved",
+        data: admin 
     })   
     } catch (error) {
         return res.status(error.statusCode).json({
@@ -19,21 +19,21 @@ async function getUsers(req,res) {
     }
 }
 
-async function getUsersById(req,res) {
+async function getAdminById(req,res) {
     try {
-        const user = await User.findOne({where:{
+        const admin = await Admin.findOne({where:{
             id: req.params.id
         }})
       
-    if(!user){
+    if(!admin){
       const error = new Error("User tidak ditemukan 😮");
       error.statusCode = 400;
       throw error;
     }    
     return res.status(200).json({
         status:"Success",
-        message: "user retrieved",
-        data: user 
+        message: "admin retrieved",
+        data: admin 
     })
     } catch (error) {
         return res.status(error.statusCode).json({
@@ -43,7 +43,7 @@ async function getUsersById(req,res) {
     }   
 }
 
-async function createUser(req,res) {
+async function createAdmin(req,res) {
     try {
     // Mengambil name, email, gender, password dari request body
     const { name, email, pass} = req.body;
@@ -56,7 +56,7 @@ async function createUser(req,res) {
 
     // Mengenkripsi password, membuat hash sebanyak 2^5 (32) iterasi
     const encryptPassword = await bcrypt.hash(pass, 5);
-    const newUser = await User.create({
+    const newAdmin = await Admin.create({
       name,
       email,
       pass: encryptPassword,
@@ -65,8 +65,8 @@ async function createUser(req,res) {
     // Kalo berhasil ngirim respons sukses (201)
     return res.status(201).json({
       status: "Success",
-      message: "User Registered",
-      data: newUser, // <- Data user baru yg ditambahkan
+      message: "Admin Registered",
+      data: newAdmin, // <- Data user baru yg ditambahkan
     });
   } catch (error) {
     return res.status(error.statusCode || 500).json({
@@ -76,7 +76,7 @@ async function createUser(req,res) {
   }    
 }
 
-async function updateUser(req,res) {
+async function updateAdmin(req,res) {
     try {
         let {pass} = req.body
         if(pass){
@@ -84,25 +84,25 @@ async function updateUser(req,res) {
             pass = encryptPassword
         }
 
-        if (Object.keys(req.body).length < 3) {
+        if (Object.keys(req.body).length < 4) {
         const error = new Error("Field cannot be empty 😠");
       error.statusCode = 400;
       throw error;
     }
-    const ifUserExist = await User.findOne({where:{id:req.params.id}})
-    if(!ifUserExist){
+    const ifAdminExist = await Admin.findOne({where:{id:req.params.id}})
+    if(!ifAdminExist){
         const error = new Error("user tidak ditemukan")
         error.statusCode = 400
         throw error
     }
-    const result = await User.update(
+    const result = await Admin.update(
         {...req.body, pass},
         {where:{id:req.params.id}}
     )
 
     return res.status(200).json({
         status : "success",
-        message: "user updated"
+        message: "admin updated"
     })
 
     } catch (error) {
@@ -113,19 +113,19 @@ async function updateUser(req,res) {
     }
 }
 
-async function deleteUser(req, res) {
+async function deleteAdmin(req, res) {
   try {
     //pengecekan akun user apakah tersedia
-    const ifUserExist = await User.findOne({ where: { id: req.params.id } });
+    const ifAdminExist = await Admin.findOne({ where: { id: req.params.id } });
 
     // Kalo gada, masuk ke catch dengan message "User tidak ditemukan 😮" (400)
-    if (!ifUserExist) {
+    if (!ifAdminExist) {
       const error = new Error("User tidak ditemukan 😮");
       error.statusCode = 400;
       throw error;
     }
     //hapus akun
-    const result = await User.destroy({ where: { id: req.params.id } });
+    const result = await Admin.destroy({ where: { id: req.params.id } });
     if (result == 0) {
       const error = new Error("Tidak ada data yang berubah");
       error.statusCode = 400;
@@ -135,7 +135,7 @@ async function deleteUser(req, res) {
     // Kalo berhasil, kirim respons sukses (200)
     return res.status(200).json({
       status: "Success",
-      message: "User Deleted",
+      message: "Admin Deleted",
     });
   } catch (error) {
     return res.status(error.statusCode || 500).json({
@@ -151,43 +151,43 @@ async function login(req, res) {
     const { email, pass } = req.body;
 
     // Cek apakah email terdaftar di db
-    const user = await User.findOne({
+    const admin = await Admin.findOne({
       where: { email: email },
     });
 
     // Kalo email ada (terdaftar)
-    if (user) {
+    if (admin) {
       // Konversi data user dari JSON ke dalam bentuk object
-      const userPlain = user.toJSON(); // Konversi ke object
+      const adminPlain = admin.toJSON(); // Konversi ke object
 
       // Disini kita mau mengcopy isi dari variabel userPlain ke variabel baru namanya safeUserData
       // Tapi di sini kita gamau copy semuanya, kita gamau copy password sama refresh_token karena itu sensitif
-      const { pass: _, refresh_token: __, ...safeUserData } = userPlain;
+      const { pass: _, refresh_token: __, ...safeAdminData } = adminPlain;
 
       // Ngecek apakah password sama kaya yg ada di DB
-      const isPasswordValid = await bcrypt.compare(pass, user.pass);
+      const isPasswordValid = await bcrypt.compare(pass, admin.pass);
 
       // Kalau password benar, artinya berhasil login
       if (isPasswordValid) {
         // Membuat access token dengan masa berlaku 30 detik
         const accessToken = jwt.sign(
-          safeUserData, // <- Payload yang akan disimpan di token
+          safeAdminData, // <- Payload yang akan disimpan di token
           process.env.ACCESS_TOKEN_SECRET, // <- Secret key untuk verifikasi
           { expiresIn: "30s" } // <- Masa berlaku token
         );
 
         // Membuat refresh token dengan masa berlaku 1 hari
         const refreshToken = jwt.sign(
-          safeUserData,
+          safeAdminData,
           process.env.REFRESH_TOKEN_SECRET,
           { expiresIn: "1d" }
         );
 
         // Update refresh token di database untuk user yang login
-        await User.update(
+        await Admin.update(
           { refresh_token: refreshToken },
           {
-            where: { id: user.id },
+            where: { id: admin.id },
           }
         );
 
@@ -221,7 +221,7 @@ async function login(req, res) {
         return res.status(200).json({
           status: "Success",
           message: "Login Berhasil",
-          data: safeUserData, // <- Data user tanpa informasi sensitif
+          data: safeAdminData, // <- Data user tanpa informasi sensitif
           accessToken,
         });
       } else {
@@ -258,25 +258,25 @@ async function logout(req, res) {
     }
 
     // Kalau ada, cari user berdasarkan refresh token tadi
-    const user = await User.findOne({
+    const admin = await Admin.findOne({
       where: { refresh_token: refreshToken },
     });
 
     // Kalau user gaada, kirim status code 401
-    if (!user.refresh_token) {
+    if (!admin.refresh_token) {
       const error = new Error("User tidak ditemukan");
       error.statusCode = 401;
       throw error;
     }
 
     // Kalau user ketemu (ada), ambil user id
-    const userId = user.id;
+    const adminId = admin.id;
 
     // Hapus refresh token dari DB berdasarkan user id tadi
-    await User.update(
+    await Admin.update(
       { refresh_token: null },
       {
-        where: { id: userId },
+        where: { id: adminId },
       }
     );
 
@@ -297,11 +297,11 @@ async function logout(req, res) {
 }
 
 export {
-  getUsers,
-  getUsersById,
-  createUser,
-  updateUser,
-  deleteUser,
+  getAdmin,
+  getAdminById,
+  createAdmin,
+  updateAdmin,
+  deleteAdmin,
   login,
   logout,
 };
